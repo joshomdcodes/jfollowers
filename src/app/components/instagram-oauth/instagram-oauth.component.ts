@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {InstagramApiService} from '../../services/instagram-api.service';
 import {CodeExchange} from '../../models/CodeExchange';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-instagram-oauth',
@@ -11,20 +12,24 @@ import {CodeExchange} from '../../models/CodeExchange';
 })
 export class InstagramOauthComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, public instagramService: InstagramApiService) {
+  loadingMsg = '';
+
+  constructor(private route: ActivatedRoute, private router: Router, public instagramService: InstagramApiService) {
   }
 
   ngOnInit() {
     this.route.queryParams.subscribe(value => {
       if (value != null) {
         const codeExchange = new CodeExchange();
-        codeExchange.client_id = '435499847415948';
-        codeExchange.client_secret = '5de0e7619edeb11ed33e4f0f1d0c2f97';
+        codeExchange.client_id = environment.clientId;
+        codeExchange.client_secret = environment.clientSecret;
         codeExchange.code = value.code != null ? value.code.replace('#', '') : '';
 
         this.instagramService.getToken(codeExchange).subscribe(tokenInfo => {
-          localStorage.setItem('accessToken', tokenInfo.access_token);
-          localStorage.setItem('userId', tokenInfo.user_id);
+          localStorage.setItem('joshomdcodes.accessToken', tokenInfo.access_token);
+          localStorage.setItem('joshomdcodes.userId', tokenInfo.user_id);
+
+          this.router.navigateByUrl('logged/dashboard');
         });
       }
     });

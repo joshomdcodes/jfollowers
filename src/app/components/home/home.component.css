@@ -1,0 +1,14 @@
+
+.btn--revert{
+  background-color:transparent;
+  color: #8198ae;
+  box-shadow: none;
+  border:1px solid #c9d9e9;
+}
+
+.btn--revert:hover{
+  background-color:transparent;
+  color: #1f4568;
+  box-shadow: none;
+  border:1px solid #8198ae;
+}

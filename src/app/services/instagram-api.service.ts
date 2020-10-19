@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CodeExchange} from '../models/CodeExchange';
 import {TokenCode} from '../models/TokenCode';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class InstagramApiService {
   }
 
   getToken(codeExchange: CodeExchange): Observable<TokenCode> {
-    codeExchange.redirect_uri = 'https://followers.josephcodes.dev/oauth/';
+    codeExchange.redirect_uri = environment.oauthUri;
     codeExchange.grant_type = 'authorization_code';
 
     const body = new URLSearchParams();
